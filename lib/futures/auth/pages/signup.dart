@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
+import 'package:flutter_online_music_app/core/constants/secret.dart';
+import 'package:flutter_online_music_app/core/utils/navigation.dart';
+import 'package:flutter_online_music_app/core/utils/toast.dart';
 import 'package:flutter_online_music_app/core/widgets/logo.dart';
+import 'package:flutter_online_music_app/futures/auth/pages/login.dart';
 import 'package:flutter_online_music_app/futures/auth/widgets/button.dart';
 import 'package:flutter_online_music_app/futures/auth/widgets/text_input.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -17,14 +24,33 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  handleFrom() {
-    if (_formKey.currentState!.validate()) {
-      final name = nameController.text;
-      final email = emailController.text;
-      final password = passwordController.text;
-      print(name);
-      print(email);
-      print(password);
+  // from state
+  bool isLoading = false;
+
+  Future<void> handleFrom() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        final res = await http.post(
+          Uri.parse("$BASE_URL/user"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            'email': emailController.text,
+            'password': passwordController.text,
+            "name": nameController.text
+          }),
+        );
+        // handle success request
+        if (res.statusCode == 201) {
+          showSnackBar(context, "You sign up successfully");
+          return Nav.push(context, const Login());
+        }
+        showSnackBar(context, "Something went wrong");
+      }
+    } catch (e) {
+      showSnackBar(context, "Something went wrong");
+      print(e);
     }
   }
 
@@ -69,6 +95,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     const SizedBox(height: 12),
                     Button(
+                      isLoading: isLoading,
                       text: "Sign up",
                       onPressed: handleFrom,
                     ),

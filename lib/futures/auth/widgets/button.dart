@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:flutter_online_music_app/core/constants/colors.dart';
 
 class Button extends StatelessWidget {
@@ -8,12 +6,14 @@ class Button extends StatelessWidget {
   final void Function() onPressed;
   final Color? bg;
   final double? radius;
+  final bool isLoading;
   const Button({
     Key? key,
     required this.text,
     required this.onPressed,
     this.bg,
     this.radius,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class Button extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(
-        text,
+        isLoading ? "Loading..." : text,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: AppColors.light100,

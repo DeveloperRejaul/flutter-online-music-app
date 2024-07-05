@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
+import 'package:flutter_online_music_app/core/utils/navigation.dart';
 import 'package:flutter_online_music_app/core/widgets/logo.dart';
+import 'package:flutter_online_music_app/futures/auth/pages/login.dart';
+import 'package:flutter_online_music_app/futures/auth/pages/signup.dart';
 import 'package:flutter_online_music_app/futures/auth/widgets/button.dart';
 
 class RootPage extends StatefulWidget {
@@ -41,14 +44,18 @@ class _RootPageState extends State<RootPage> {
                 Button(
                   radius: 50,
                   text: "Sign up for free",
-                  onPressed: () {},
+                  onPressed: () {
+                    Nav.push(context, const SignUp());
+                  },
                 ),
                 const SizedBox(height: 10),
                 Button(
                   radius: 50,
                   bg: AppColors.transparent,
                   text: "Login",
-                  onPressed: () {},
+                  onPressed: () {
+                    Nav.push(context, const Login());
+                  },
                 ),
               ],
             ),
