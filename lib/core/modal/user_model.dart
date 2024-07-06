@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 @immutable
-class AuthModel {
+class UserModel {
   final int id;
   final String name;
   final String email;
@@ -12,7 +12,7 @@ class AuthModel {
   final String access_token;
   final String createdAt;
   final String updatedAt;
-  const AuthModel({
+  const UserModel({
     required this.id,
     required this.name,
     required this.email,
@@ -22,7 +22,7 @@ class AuthModel {
     required this.updatedAt,
   });
 
-  AuthModel copyWith({
+  UserModel copyWith({
     int? id,
     String? name,
     String? email,
@@ -31,7 +31,7 @@ class AuthModel {
     String? createdAt,
     String? updatedAt,
   }) {
-    return AuthModel(
+    return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -54,8 +54,8 @@ class AuthModel {
     };
   }
 
-  factory AuthModel.fromMap(Map<String, dynamic> map) {
-    return AuthModel(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       id: map['id'] as int,
       name: map['name'] as String,
       email: map['email'] as String,
@@ -68,16 +68,16 @@ class AuthModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AuthModel.fromJson(String source) =>
-      AuthModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'AuthModel(id: $id, name: $name, email: $email, password: $password, access_token: $access_token, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserModel(id: $id, name: $name, email: $email, password: $password, access_token: $access_token, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
-  bool operator ==(covariant AuthModel other) {
+  bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&

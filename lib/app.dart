@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/secret.dart';
 import 'package:flutter_online_music_app/core/utils/navigation.dart';
 import 'package:flutter_online_music_app/core/utils/store.dart';
-import 'package:flutter_online_music_app/futures/auth/pages/root.dart';
-import 'package:flutter_online_music_app/futures/home/pages/home.dart';
+import 'package:flutter_online_music_app/features/auth/view/pages/root.dart';
+import 'package:flutter_online_music_app/features/home/pages/Home.dart';
 import 'package:http/http.dart' as http;
 
 class App extends StatefulWidget {

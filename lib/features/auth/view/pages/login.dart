@@ -1,64 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
-import 'package:flutter_online_music_app/core/constants/secret.dart';
 import 'package:flutter_online_music_app/core/utils/navigation.dart';
-import 'package:flutter_online_music_app/core/utils/store.dart';
 import 'package:flutter_online_music_app/core/utils/toast.dart';
 import 'package:flutter_online_music_app/core/widgets/logo.dart';
-import 'package:flutter_online_music_app/futures/auth/model/auth_model.dart';
-import 'package:flutter_online_music_app/futures/auth/widgets/button.dart';
-import 'package:flutter_online_music_app/futures/auth/widgets/text_input.dart';
-import 'package:flutter_online_music_app/futures/home/pages/Home.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter_online_music_app/features/auth/view/widgets/button.dart';
+import 'package:flutter_online_music_app/features/auth/view/widgets/text_input.dart';
+import 'package:flutter_online_music_app/features/auth/viewmodel/auth_view_model.dart';
+import 'package:flutter_online_music_app/features/home/pages/Home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
   const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  // handle from
+class _LoginState extends ConsumerState<Login> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  // from state
-  bool isLoading = false;
-
-  Future<void> handleFrom() async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        setState(() => isLoading = true);
-        final response = await http.post(
-          Uri.parse("$BASE_URL/user/login"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode({
-            'email': emailController.text,
-            'password': passwordController.text,
-          }),
-        );
-
-        if (response.statusCode == 400) {
-          setState(() => isLoading = false);
-          return showSnackBar(context, "Something went wrong");
-        }
-        final data = AuthModel.fromJson(response.body);
-        await Storage.writeStr("access_token", data.access_token);
-        setState(() => isLoading = false);
-        showSnackBar(context, "You are login successfully");
-        Nav.replace(context, const Home());
-      }
-    } catch (e) {
-      print(e);
-      setState(() => isLoading = false);
-      showSnackBar(context, "Something went wrong");
-    }
-  }
 
   @override
   void dispose() {
@@ -67,8 +28,33 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  Future<void> handleFrom() async {
+    if (_formKey.currentState!.validate()) {
+      await ref
+          .read(authViewModelProvider.notifier)
+          .loginUser(emailController.text, passwordController.text);
+    } else {
+      showSnackBar(context, 'Something went wrong');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(
+      authViewModelProvider.select((value) => value?.isLoading == true),
+    );
+
+    ref.listen(authViewModelProvider, (_, next) {
+      next?.when(
+        data: (data) {
+          print(data);
+          Nav.replace(context, const Home());
+        },
+        error: (error, st) => showSnackBar(context, "Something went wrong"),
+        loading: () {},
+      );
+    });
+
     return Scaffold(
       backgroundColor: AppColors.dark700,
       body: Padding(

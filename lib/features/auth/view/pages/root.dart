@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
 import 'package:flutter_online_music_app/core/utils/navigation.dart';
 import 'package:flutter_online_music_app/core/widgets/logo.dart';
-import 'package:flutter_online_music_app/futures/auth/pages/login.dart';
-import 'package:flutter_online_music_app/futures/auth/pages/signup.dart';
-import 'package:flutter_online_music_app/futures/auth/widgets/button.dart';
+import 'package:flutter_online_music_app/features/auth/view/pages/login.dart';
+import 'package:flutter_online_music_app/features/auth/view/pages/signup.dart';
+import 'package:flutter_online_music_app/features/auth/view/widgets/button.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});

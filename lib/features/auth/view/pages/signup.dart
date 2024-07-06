@@ -6,9 +6,9 @@ import 'package:flutter_online_music_app/core/constants/secret.dart';
 import 'package:flutter_online_music_app/core/utils/navigation.dart';
 import 'package:flutter_online_music_app/core/utils/toast.dart';
 import 'package:flutter_online_music_app/core/widgets/logo.dart';
-import 'package:flutter_online_music_app/futures/auth/pages/login.dart';
-import 'package:flutter_online_music_app/futures/auth/widgets/button.dart';
-import 'package:flutter_online_music_app/futures/auth/widgets/text_input.dart';
+import 'package:flutter_online_music_app/features/auth/view/pages/login.dart';
+import 'package:flutter_online_music_app/features/auth/view/widgets/button.dart';
+import 'package:flutter_online_music_app/features/auth/view/widgets/text_input.dart';
 import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
