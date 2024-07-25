@@ -146,7 +146,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     onFavorite: () async {
                       if (isFavorite) {
                         final res = await musicRepo.removeFavorite(id: id);
-                        final val = switch (res) {
+                        return switch (res) {
                           Right() => setState(() {
                               isFavorite = false;
                             }),
@@ -162,7 +162,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             userId: myUserId,
                             musicId: id,
                           );
-                          final val = switch (res) {
+                          return switch (res) {
                             Right() => setState(() {
                                 isFavorite = true;
                               }),
