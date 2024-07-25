@@ -113,4 +113,27 @@ class MusicRepository {
       return Left(AppFailure(e.toString()));
     }
   }
+
+  /**
+   *  This Function using for get all favorite music by user id
+   * returns all favorite music
+   */
+  Future<Either<AppFailure, List<MusicModal>>> getFavorites({
+    required String id,
+  }) async {
+    try {
+      final res = await http.get(Uri.parse("$BASE_URL/favorite/$id"));
+      if (res.statusCode != 200) {
+        return Left(AppFailure("Something went wrong"));
+      }
+      final result = jsonDecode(res.body);
+      final List<MusicModal> data = [];
+      for (var i = 0; i < result.length; i++) {
+        data.add(MusicModal.fromMap(result[i]));
+      }
+      return Right(data);
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
+  }
 }

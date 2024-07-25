@@ -20,7 +20,22 @@ final getMusicsProvider = AutoDisposeFutureProvider<List<MusicModal>>.internal(
 );
 
 typedef GetMusicsRef = AutoDisposeFutureProviderRef<List<MusicModal>>;
-String _$musicViewModelHash() => r'182419bac55d8c14ee7fde7f3bb072fd24967b64';
+String _$getFavoritesHash() => r'7dbeac66617d7a12809975ce2c8219bbc4c4a280';
+
+/// See also [getFavorites].
+@ProviderFor(getFavorites)
+final getFavoritesProvider =
+    AutoDisposeFutureProvider<List<MusicModal>>.internal(
+  getFavorites,
+  name: r'getFavoritesProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getFavoritesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetFavoritesRef = AutoDisposeFutureProviderRef<List<MusicModal>>;
+String _$musicViewModelHash() => r'9f6e1f60f47018f39e728e43ef8509fcc0393aea';
 
 /// See also [MusicViewModel].
 @ProviderFor(MusicViewModel)

@@ -9,6 +9,8 @@ class MusicModal {
   final String image;
   final String color;
   final String url;
+  final String? createdAt;
+  final String? updatedAt;
 
   MusicModal({
     required this.id,
@@ -17,6 +19,8 @@ class MusicModal {
     required this.image,
     required this.color,
     required this.url,
+    this.createdAt,
+    this.updatedAt,
   });
 
   MusicModal copyWith({
@@ -26,6 +30,8 @@ class MusicModal {
     String? image,
     String? color,
     String? url,
+    String? createdAt,
+    String? updatedAt,
   }) {
     return MusicModal(
       id: id ?? this.id,
@@ -34,6 +40,8 @@ class MusicModal {
       image: image ?? this.image,
       color: color ?? this.color,
       url: url ?? this.url,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -45,6 +53,8 @@ class MusicModal {
       'image': image,
       'color': color,
       'url': url,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -56,6 +66,8 @@ class MusicModal {
       image: map['image'] as String,
       color: map['color'] as String,
       url: map['url'] as String,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
+      updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
     );
   }
 
@@ -66,7 +78,7 @@ class MusicModal {
 
   @override
   String toString() {
-    return 'MusicModal(id: $id, name: $name, title: $title, image: $image, color: $color, url: $url)';
+    return 'MusicModal(id: $id, name: $name, title: $title, image: $image, color: $color, url: $url, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -78,7 +90,9 @@ class MusicModal {
         other.title == title &&
         other.image == image &&
         other.color == color &&
-        other.url == url;
+        other.url == url &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
   }
 
   @override
@@ -88,6 +102,8 @@ class MusicModal {
         title.hashCode ^
         image.hashCode ^
         color.hashCode ^
-        url.hashCode;
+        url.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
   }
 }

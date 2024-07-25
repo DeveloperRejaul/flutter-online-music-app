@@ -23,25 +23,25 @@ class MusicCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: imageHeight,
-            width: imageHeight,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(img),
-                fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: imageHeight,
+              width: imageHeight,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(img),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 8,
-                  left: 0,
-                  child: GestureDetector(
-                    onTap: onPressed,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 8,
+                    left: 0,
                     child: Row(
                       children: [
                         Container(
@@ -60,22 +60,16 @@ class MusicCard extends StatelessWidget {
                         )
                       ],
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: onPressed,
-            child: Container(
+            Container(
               height: 15,
               width: imageHeight,
               color: hexToColor(color),
             ),
-          ),
-          GestureDetector(
-            onTap: onPressed,
-            child: SizedBox(
+            SizedBox(
               width: imageHeight,
               child: Text(
                 title,
@@ -86,9 +80,9 @@ class MusicCard extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
