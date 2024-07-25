@@ -20,7 +20,6 @@ Future<List<MusicModal>> getFavorites(GetFavoritesRef ref) async {
   final userId = ref.watch(userNotifierProvider)?.id;
   if (userId == null) return throw "User Id not found";
   final res = await ref.watch(musicRepositoryProvider).getFavorites(id: userId);
-  print(res);
   return switch (res) {
     Left(value: final l) => throw l.message,
     Right(value: final r) => r,
@@ -68,31 +67,6 @@ class MusicViewModel extends _$MusicViewModel {
   Future<AsyncValue<MusicModal>> _createMusic(MusicModal music) async {
     return state = AsyncValue.data(music);
   }
-
-/**
- * This Function using for only get single music
- * returns single music  with id
- */
-  Future getFavorites({required String id}) async {
-    AsyncValue.loading();
-    final res = await _musicRepository.getFavorites(id: id);
-    return switch (res) {
-      Left(value: final l) => AsyncValue.error(l.message, StackTrace.current),
-      Right(value: final r) => AsyncValue.data(r),
-    };
-  }
-
-/**
- * This Function using for delete music by id
- * returns delete count and status code
-*/
-  Future deleteMusic() async {}
-
-/**
- * This Function using for delete music by id
- * returns delete count and status code
-*/
-  Future getMusic() async {}
 
 /**
  * This Function using for update music by id

@@ -14,7 +14,7 @@ class FavoritePage extends ConsumerWidget {
       body: ref.watch(getFavoritesProvider).when(
         data: (data) {
           return ListView.builder(
-            itemCount: 2,
+            itemCount: data.length,
             itemBuilder: (ctx, index) {
               final song = data[index];
               return ListTile(

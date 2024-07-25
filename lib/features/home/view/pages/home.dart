@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
+import 'package:flutter_online_music_app/core/provider/user_notifier.dart';
 import 'package:flutter_online_music_app/core/widgets/Button.dart';
 import 'package:flutter_online_music_app/core/widgets/Card.dart';
+import 'package:flutter_online_music_app/features/home/repositoris/music_repository.dart';
 import 'package:flutter_online_music_app/features/home/view/widgets/bottom_bar.dart';
 import 'package:flutter_online_music_app/features/home/viewmodel/music_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -15,6 +18,7 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   bool isBottomMusic = false;
+  bool isFavorite = false;
   String name = "";
   String title = "";
   String img = "";
@@ -22,6 +26,9 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final musicRepo = ref.read(musicRepositoryProvider);
+    final myUserId = ref.watch(userNotifierProvider)?.id;
+
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.dark600),
       backgroundColor: AppColors.dark600,
@@ -79,14 +86,36 @@ class _HomePageState extends ConsumerState<HomePage> {
                             img: "assets/images/demo.jpg",
                             name: song.name,
                             title: song.title,
-                            onPressed: () {
-                              setState(() {
-                                id = song.id;
-                                name = song.name;
-                                isBottomMusic = true;
-                                title = song.title;
-                                img = "assets/images/demo.jpg";
-                              });
+                            onPressed: () async {
+                              final res =
+                                  await musicRepo.getFavorite(id: song.id);
+
+                              final val = switch (res) {
+                                Right(value: final r) => r,
+                                Left() => null,
+                              };
+
+                              if (val != null && myUserId != null) {
+                                if (myUserId == val.userId) {
+                                  setState(() {
+                                    id = song.id;
+                                    name = song.name;
+                                    isBottomMusic = true;
+                                    title = song.title;
+                                    img = "assets/images/demo.jpg";
+                                    isFavorite = true;
+                                  });
+                                }
+                              } else {
+                                setState(() {
+                                  id = song.id;
+                                  name = song.name;
+                                  isBottomMusic = true;
+                                  title = song.title;
+                                  img = "assets/images/demo.jpg";
+                                  isFavorite = false;
+                                });
+                              }
                             },
                           );
                         },
@@ -112,9 +141,39 @@ class _HomePageState extends ConsumerState<HomePage> {
                     img: img,
                     name: name,
                     title: title,
-                    isFavorite: false,
+                    isFavorite: isFavorite,
                     id: id,
-                    onFavorite: () {},
+                    onFavorite: () async {
+                      if (isFavorite) {
+                        final res = await musicRepo.removeFavorite(id: id);
+                        final val = switch (res) {
+                          Right() => setState(() {
+                              isFavorite = false;
+                            }),
+                          Left() => setState(() {
+                              isFavorite = true;
+                            }),
+                        };
+                      } else {
+                        // add favorite
+                        if (myUserId != null) {
+                          print("add favorite");
+                          final res = await musicRepo.addFavorite(
+                            userId: myUserId,
+                            musicId: id,
+                          );
+                          final val = switch (res) {
+                            Right() => setState(() {
+                                isFavorite = true;
+                              }),
+                            Left() => setState(() {
+                                isFavorite = false;
+                              })
+                          };
+                        }
+                      }
+                      ref.invalidate(getFavoritesProvider);
+                    },
                   )
                 : SizedBox(),
           ],

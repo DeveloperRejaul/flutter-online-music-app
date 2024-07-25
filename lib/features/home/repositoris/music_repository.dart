@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_online_music_app/core/constants/secret.dart';
 import 'package:flutter_online_music_app/core/failure/failure.dart';
+import 'package:flutter_online_music_app/core/modal/favorite_model.dart';
 import 'package:flutter_online_music_app/core/modal/music_modal.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -52,12 +53,6 @@ class MusicRepository {
   }
 
 /**
- * This Function using for only get single music
- * returns single music  with id
- */
-  Future getMusic() async {}
-
-/**
  * This Function using for only get multiple music list of music
  * returns multiple music list
  */
@@ -78,12 +73,6 @@ class MusicRepository {
       return Left(AppFailure(e.toString()));
     }
   }
-
-/**
- * This Function using for delete music by id
- * returns delete count and status code
-*/
-  Future deleteMusic() async {}
 
 /**
  * This Function using for update music by id
@@ -122,7 +111,7 @@ class MusicRepository {
     required String id,
   }) async {
     try {
-      final res = await http.get(Uri.parse("$BASE_URL/favorite/$id"));
+      final res = await http.get(Uri.parse("$BASE_URL/favorite/user/$id"));
       if (res.statusCode != 200) {
         return Left(AppFailure("Something went wrong"));
       }
@@ -132,6 +121,72 @@ class MusicRepository {
         data.add(MusicModal.fromMap(result[i]));
       }
       return Right(data);
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
+  }
+
+  /**
+   *  This Function using for get single favorite music by music id
+   * returns single favorite music
+   */
+  Future<Either<AppFailure, FavoriteModel>> getFavorite({
+    required String id,
+  }) async {
+    try {
+      final res = await http.get(Uri.parse("$BASE_URL/favorite/$id"));
+
+      if (res.statusCode != 200) {
+        return Left(AppFailure("Something went wrong"));
+      }
+      if (res.body.isEmpty) return Left(AppFailure("Something went wrong"));
+      final result = jsonDecode(res.body);
+      return Right(FavoriteModel.fromMap(result));
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
+  }
+
+  /**
+   *  This Function using for remove favorite music by music id
+   *  returns single remove count
+   */
+  Future<Either<AppFailure, bool>> removeFavorite({
+    required String id,
+  }) async {
+    try {
+      final res = await http.delete(Uri.parse("$BASE_URL/favorite/$id"));
+      if (res.statusCode != 200) {
+        return Left(AppFailure("Something went wrong"));
+      }
+      return Right(true);
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
+  }
+
+  /**
+   *  This Function using for remove favorite music by music id
+   *  returns single remove count
+   */
+  Future<Either<AppFailure, FavoriteModel>> addFavorite({
+    required String userId,
+    required String musicId,
+  }) async {
+    try {
+      final res = await http.post(
+        Uri.parse("$BASE_URL/favorite"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode({"userId": userId, "musicId": musicId}),
+      );
+
+      if (res.statusCode != 201) {
+        return Left(AppFailure("Something went wrong"));
+      }
+      final result = jsonDecode(res.body);
+      return Right(FavoriteModel.fromMap(result));
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }

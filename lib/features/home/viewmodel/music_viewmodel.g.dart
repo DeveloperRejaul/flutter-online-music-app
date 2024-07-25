@@ -20,7 +20,7 @@ final getMusicsProvider = AutoDisposeFutureProvider<List<MusicModal>>.internal(
 );
 
 typedef GetMusicsRef = AutoDisposeFutureProviderRef<List<MusicModal>>;
-String _$getFavoritesHash() => r'7dbeac66617d7a12809975ce2c8219bbc4c4a280';
+String _$getFavoritesHash() => r'd7ebb6bccf9c5b4bb34b730d6067f4f1fed093bc';
 
 /// See also [getFavorites].
 @ProviderFor(getFavorites)
