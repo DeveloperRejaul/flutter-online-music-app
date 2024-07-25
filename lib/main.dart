@@ -30,7 +30,7 @@ class _MainState extends ConsumerState<Main> {
   Widget build(BuildContext context) {
     final user = ref.read(userNotifierProvider);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Spotify Music',
       theme: theme,
       debugShowCheckedModeBanner: false,
       home: user == null ? const Login() : const Home(),
