@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 
 class BottomBar extends ConsumerStatefulWidget {
-  final int? id;
+  final String id;
   final String img;
   final String name;
   final String title;

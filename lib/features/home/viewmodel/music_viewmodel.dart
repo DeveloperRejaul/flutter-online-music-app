@@ -1,5 +1,4 @@
 import 'package:flutter_online_music_app/core/modal/music_modal.dart';
-import 'package:flutter_online_music_app/core/provider/music_notifier.dart';
 import 'package:flutter_online_music_app/features/home/repositoris/music_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,28 +8,19 @@ part 'music_viewmodel.g.dart';
 @riverpod
 Future<List<MusicModal>> getMusics(GetMusicsRef ref) async {
   final res = await ref.watch(musicRepositoryProvider).getMusics();
-  final musicNotifier = ref.read(musicNotifierProvider.notifier);
-
-  _handleRight(List<MusicModal> musics) {
-    musicNotifier.addMusics(musics);
-    return musics;
-  }
-
   return switch (res) {
     Left(value: final l) => throw l.message,
-    Right(value: final r) => _handleRight(r),
+    Right(value: final r) => r,
   };
 }
 
 @riverpod
 class MusicViewModel extends _$MusicViewModel {
   late MusicRepository _musicRepository;
-  late MusicNotifier _musicNotifier;
 
   @override
   AsyncValue<MusicModal>? build() {
     _musicRepository = ref.read(musicRepositoryProvider);
-    _musicNotifier = ref.read(musicNotifierProvider.notifier);
     return null;
   }
 
@@ -94,7 +84,6 @@ class MusicViewModel extends _$MusicViewModel {
   }
 
   Future<AsyncValue<MusicModal>> _updateMusic(MusicModal music) async {
-    _musicNotifier.updateMusicFavorite(music.id, music.isFavorite);
     return AsyncValue.data(music);
   }
 }

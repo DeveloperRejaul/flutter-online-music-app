@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
+import 'package:flutter_online_music_app/core/utils/color.dart';
 
 class MusicCard extends StatelessWidget {
   final String img;
   final String name;
   final String title;
-  final Color color;
-  final bool isFavorite;
+  final String color;
   final void Function()? onPressed;
-  final void Function()? onFavorite;
   const MusicCard({
     super.key,
     required this.img,
@@ -16,8 +15,6 @@ class MusicCard extends StatelessWidget {
     required this.title,
     required this.color,
     this.onPressed,
-    this.onFavorite,
-    required this.isFavorite,
   });
 
   @override
@@ -41,17 +38,6 @@ class MusicCard extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                  top: -8,
-                  right: -6,
-                  child: IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_outline,
-                      color: AppColors.light100,
-                    ),
-                    onPressed: onFavorite,
-                  ),
-                ),
-                Positioned(
                   bottom: 8,
                   left: 0,
                   child: GestureDetector(
@@ -59,7 +45,7 @@ class MusicCard extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          color: color,
+                          color: hexToColor(color),
                           height: 20,
                           width: 10,
                         ),
@@ -84,7 +70,7 @@ class MusicCard extends StatelessWidget {
             child: Container(
               height: 15,
               width: imageHeight,
-              color: color,
+              color: hexToColor(color),
             ),
           ),
           GestureDetector(

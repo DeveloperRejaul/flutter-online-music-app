@@ -18,12 +18,5 @@ class MusicNotifier extends _$MusicNotifier {
     state = [...state, ...musics];
   }
 
-  updateMusicFavorite(int id, bool isFavorite) {
-    state = state.map((e) {
-      if (e?.id == id) {
-        return e?.copyWith(isFavorite: isFavorite);
-      }
-      return e;
-    }).toList();
-  }
+  updateMusicFavorite(int id) {}
 }

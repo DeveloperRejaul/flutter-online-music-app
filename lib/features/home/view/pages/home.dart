@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_online_music_app/core/constants/colors.dart';
-import 'package:flutter_online_music_app/core/provider/music_notifier.dart';
-import 'package:flutter_online_music_app/core/utils/color.dart';
 import 'package:flutter_online_music_app/core/widgets/Button.dart';
 import 'package:flutter_online_music_app/core/widgets/Card.dart';
 import 'package:flutter_online_music_app/features/home/view/widgets/bottom_bar.dart';
@@ -20,28 +18,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   String name = "";
   String title = "";
   String img = "";
-  late bool isFavorite = false;
-  late int? id;
-
-  Future handleFavorite(int? musicId, bool favorite) async {
-    if (musicId != null) {
-      await ref
-          .read(musicViewModelProvider.notifier)
-          .updateMusic(id: musicId, isFavorite: !favorite);
-      if (id == musicId) isFavorite = !isFavorite;
-    } else {
-      print("Id is missing");
-    }
-  }
+  late String id;
 
   @override
   Widget build(BuildContext context) {
-    final getMusics = ref.watch(getMusicsProvider);
-    final allMusic = ref.watch(musicNotifierProvider);
-
-    final isLoading = getMusics.isLoading;
-    final isError = getMusics.hasError;
-
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.dark600),
       backgroundColor: AppColors.dark600,
@@ -85,38 +65,46 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 const SizedBox(height: 10),
                 // list of music display
-                isError ? Text("Something went wrong") : SizedBox(),
-                isLoading
-                    ? CircularProgressIndicator()
-                    : SizedBox(
-                        height: 250,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: allMusic.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final song = allMusic[index];
-                            return MusicCard(
-                              onFavorite: () =>
-                                  handleFavorite(song.id, song.isFavorite),
-                              onPressed: () {
-                                setState(() {
-                                  isBottomMusic = true;
-                                  name = song.name;
-                                  title = song.title;
-                                  img = "assets/images/demo.jpg";
-                                  isFavorite = song.isFavorite;
-                                  id = song.id;
-                                });
-                              },
-                              img: "assets/images/demo.jpg",
-                              name: song!.name,
-                              title: song.title,
-                              color: hexToColor(song.color),
-                              isFavorite: song.isFavorite,
-                            );
-                          },
-                        ),
+                ref.watch(getMusicsProvider).when(
+                  data: (data) {
+                    return SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final song = data[index];
+                          return MusicCard(
+                            color: song.color,
+                            img: "assets/images/demo.jpg",
+                            name: song.name,
+                            title: song.title,
+                            onPressed: () {
+                              setState(() {
+                                id = song.id;
+                                name = song.name;
+                                isBottomMusic = true;
+                                title = song.title;
+                                img = "assets/images/demo.jpg";
+                              });
+                            },
+                          );
+                        },
                       ),
+                    );
+                  },
+                  error: (error, stackTrace) {
+                    return Text(
+                      "Something went wrong ",
+                      style: TextStyle(
+                        color: AppColors.light100,
+                      ),
+                    );
+                  },
+                  loading: () {
+                    return CircularProgressIndicator();
+                  },
+                )
               ],
             ),
             isBottomMusic
@@ -124,9 +112,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                     img: img,
                     name: name,
                     title: title,
-                    isFavorite: isFavorite,
+                    isFavorite: false,
                     id: id,
-                    onFavorite: () => handleFavorite(id, isFavorite))
+                    onFavorite: () {},
+                  )
                 : SizedBox(),
           ],
         ),

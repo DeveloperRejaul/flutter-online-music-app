@@ -3,13 +3,12 @@ import 'dart:convert';
 
 // MusicModal class
 class MusicModal {
-  final int id;
+  final String id;
   final String name;
   final String title;
   final String image;
   final String color;
   final String url;
-  final bool isFavorite;
 
   MusicModal({
     required this.id,
@@ -18,17 +17,15 @@ class MusicModal {
     required this.image,
     required this.color,
     required this.url,
-    required this.isFavorite,
   });
 
   MusicModal copyWith({
-    int? id,
+    String? id,
     String? name,
     String? title,
     String? image,
     String? color,
     String? url,
-    bool? isFavorite,
   }) {
     return MusicModal(
       id: id ?? this.id,
@@ -37,7 +34,6 @@ class MusicModal {
       image: image ?? this.image,
       color: color ?? this.color,
       url: url ?? this.url,
-      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
@@ -49,19 +45,17 @@ class MusicModal {
       'image': image,
       'color': color,
       'url': url,
-      'isFavorite': isFavorite,
     };
   }
 
   factory MusicModal.fromMap(Map<String, dynamic> map) {
     return MusicModal(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       title: map['title'] as String,
       image: map['image'] as String,
       color: map['color'] as String,
       url: map['url'] as String,
-      isFavorite: map['isFavorite'] as bool,
     );
   }
 
@@ -72,7 +66,7 @@ class MusicModal {
 
   @override
   String toString() {
-    return 'MusicModal(id: $id, name: $name, title: $title, image: $image, color: $color, url: $url, isFavorite: $isFavorite)';
+    return 'MusicModal(id: $id, name: $name, title: $title, image: $image, color: $color, url: $url)';
   }
 
   @override
@@ -84,8 +78,7 @@ class MusicModal {
         other.title == title &&
         other.image == image &&
         other.color == color &&
-        other.url == url &&
-        other.isFavorite == isFavorite;
+        other.url == url;
   }
 
   @override
@@ -95,7 +88,6 @@ class MusicModal {
         title.hashCode ^
         image.hashCode ^
         color.hashCode ^
-        url.hashCode ^
-        isFavorite.hashCode;
+        url.hashCode;
   }
 }
