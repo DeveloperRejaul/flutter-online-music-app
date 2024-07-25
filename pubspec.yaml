@@ -53,8 +53,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   riverpod_generator: ^2.4.0
-  build_runner: ^2.4.9
-  custom_lint: ^0.6.4
+  build_runner: ^2.4.9 #flutter pub run build_runner watch
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

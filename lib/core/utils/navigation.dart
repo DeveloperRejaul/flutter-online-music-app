@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Nav {
-  static void push(BuildContext context, Widget page) {
+  static void push(BuildContext context, Widget page,
+      [PageTransitionType? animation]) {
     Navigator.push(
       context,
       PageTransition(
-        type: PageTransitionType.rightToLeft,
+        type: animation ?? PageTransitionType.rightToLeft,
         child: page,
       ),
     );
@@ -16,11 +17,12 @@ class Nav {
     Navigator.pop(context);
   }
 
-  static void replace(BuildContext context, Widget page) {
+  static void replace(BuildContext context, Widget page,
+      [PageTransitionType? animation]) {
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
-        type: PageTransitionType.rightToLeft,
+        type: animation ?? PageTransitionType.rightToLeft,
         child: page,
       ),
       (route) => false,

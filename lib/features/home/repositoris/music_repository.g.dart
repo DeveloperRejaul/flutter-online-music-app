@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_user_notifier.dart';
+part of 'music_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentUserNotifierHash() =>
-    r'20f8611b9437db349cdf10372446e0fc486429e5';
+String _$musicRepositoryHash() => r'82f237f9968f99b1be1232845a6a43f8cd1efecf';
 
-/// See also [CurrentUserNotifier].
-@ProviderFor(CurrentUserNotifier)
-final currentUserNotifierProvider =
-    AutoDisposeNotifierProvider<CurrentUserNotifier, UserModel?>.internal(
-  CurrentUserNotifier.new,
-  name: r'currentUserNotifierProvider',
+/// See also [musicRepository].
+@ProviderFor(musicRepository)
+final musicRepositoryProvider = AutoDisposeProvider<MusicRepository>.internal(
+  musicRepository,
+  name: r'musicRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentUserNotifierHash,
+      : _$musicRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentUserNotifier = AutoDisposeNotifier<UserModel?>;
+typedef MusicRepositoryRef = AutoDisposeProviderRef<MusicRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

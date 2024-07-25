@@ -6,7 +6,7 @@ import 'package:flutter_online_music_app/core/widgets/logo.dart';
 import 'package:flutter_online_music_app/features/auth/view/widgets/button.dart';
 import 'package:flutter_online_music_app/features/auth/view/widgets/text_input.dart';
 import 'package:flutter_online_music_app/features/auth/viewmodel/auth_view_model.dart';
-import 'package:flutter_online_music_app/features/home/pages/Home.dart';
+import 'package:flutter_online_music_app/features/home/view/pages/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Login extends ConsumerStatefulWidget {
@@ -21,13 +21,6 @@ class _LoginState extends ConsumerState<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  @override
-  void dispose() {
-    passwordController.dispose();
-    emailController.dispose();
-    super.dispose();
-  }
-
   Future<void> handleFrom() async {
     if (_formKey.currentState!.validate()) {
       await ref
@@ -39,6 +32,13 @@ class _LoginState extends ConsumerState<Login> {
   }
 
   @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
       authViewModelProvider.select((value) => value?.isLoading == true),
@@ -47,7 +47,6 @@ class _LoginState extends ConsumerState<Login> {
     ref.listen(authViewModelProvider, (_, next) {
       next?.when(
         data: (data) {
-          print(data);
           Nav.replace(context, const Home());
         },
         error: (error, st) => showSnackBar(context, "Something went wrong"),

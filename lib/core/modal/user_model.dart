@@ -9,9 +9,9 @@ class UserModel {
   final String name;
   final String email;
   final String password;
-  final String access_token;
-  final String createdAt;
-  final String updatedAt;
+  final String? access_token;
+  final String? createdAt;
+  final String? updatedAt;
   const UserModel({
     required this.id,
     required this.name,
@@ -60,9 +60,10 @@ class UserModel {
       name: map['name'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
-      access_token: map['access_token'] as String,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
+      access_token:
+          map['access_token'] != null ? map['access_token'] as String : null,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
+      updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
     );
   }
 

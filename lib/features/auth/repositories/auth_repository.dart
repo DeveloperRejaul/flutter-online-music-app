@@ -7,14 +7,19 @@ import 'package:fpdart/fpdart.dart';
 import 'package:flutter_online_music_app/core/modal/user_model.dart';
 import 'package:http/http.dart' as http;
 
-part 'auth_remote_repository.g.dart';
+part 'auth_repository.g.dart';
 
 @riverpod
-AuthRemoteRepositories authRemoteRepositories(AuthRemoteRepositoriesRef ref) {
-  return AuthRemoteRepositories();
+AuthRepository authRepository(ref) {
+  return AuthRepository();
 }
 
-class AuthRemoteRepositories {
+class AuthRepository {
+/**
+ * this function using for login user
+ * returns user data when login success
+ * if request failed return error message
+ */
   Future<Either<AppFailure, UserModel>> login(
     String email,
     String password,
@@ -42,6 +47,11 @@ class AuthRemoteRepositories {
     }
   }
 
+/**
+ * this function using for signup user
+ * returns user data when login success
+ * if request failed return error message
+ */
   Future<Either<AppFailure, UserModel>> signup(
     String name,
     String email,
@@ -58,17 +68,20 @@ class AuthRemoteRepositories {
 
       // decode the response
       final res = jsonDecode(response.body);
-
       // handle error response
-      if (res.statusCode != 201) return Left(AppFailure(res['message']));
-
+      if (response.statusCode != 201) return Left(AppFailure(res['message']));
       return Right(UserModel.fromMap(res));
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }
   }
 
-  Future<Either<AppFailure, UserModel>> authCheck(String token) async {
+/**
+ * this function using for check auth user
+ * returns user data when login success
+ * if request failed return error message
+ */
+  Future<Either<AppFailure, UserModel>> checkAuth(String token) async {
     try {
       final response = await http.get(
         Uri.parse("$BASE_URL/user/auth"),
@@ -79,9 +92,9 @@ class AuthRemoteRepositories {
       );
       // decode the response
       final res = jsonDecode(response.body);
-      if (response.statusCode == 200) return Right(UserModel.fromMap(res));
-
-      return Left(AppFailure(res['message']));
+      // handle error response
+      if (response.statusCode != 200) return Left(AppFailure(res['message']));
+      return Right(UserModel.fromMap(res));
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }
