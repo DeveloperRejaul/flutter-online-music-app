@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 class UserModel {
-  final int id;
+  final String id;
   final String name;
   final String email;
   final String password;
@@ -23,7 +23,7 @@ class UserModel {
   });
 
   UserModel copyWith({
-    int? id,
+    String? id,
     String? name,
     String? email,
     String? password,
@@ -56,7 +56,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
