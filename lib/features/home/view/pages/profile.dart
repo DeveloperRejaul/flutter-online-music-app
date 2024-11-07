@@ -21,10 +21,10 @@ class ProfilePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               child: Image.asset('assets/images/demo.jpg'),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Column(
               children: <Widget>[
-                Text(
+                const Text(
                   "Jhon Deo",
                   style: TextStyle(
                     color: AppColors.light100,

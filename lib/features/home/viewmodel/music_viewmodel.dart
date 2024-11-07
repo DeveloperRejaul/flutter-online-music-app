@@ -36,10 +36,8 @@ class MusicViewModel extends _$MusicViewModel {
     return null;
   }
 
-/**
- * This Function only for creating music
- * returns created music  
- */
+/// This Function only for creating music
+/// returns created music  
   Future createMusic({
     required String name,
     required String title,
@@ -68,10 +66,8 @@ class MusicViewModel extends _$MusicViewModel {
     return state = AsyncValue.data(music);
   }
 
-/**
- * This Function using for update music by id
- * returns updated music 
-*/
+/// This Function using for update music by id
+/// returns updated music 
   Future updateMusic({required int id, required bool isFavorite}) async {
     final res =
         await _musicRepository.updateMusic(id: id, isFavorite: isFavorite);

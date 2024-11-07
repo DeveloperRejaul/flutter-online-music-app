@@ -87,7 +87,7 @@ class _BottomBarState extends ConsumerState<BottomBar>
 
   @override
   Widget build(BuildContext context) {
-    final double bottomBarHeight = 80;
+    const double bottomBarHeight = 80;
     return Positioned(
       bottom: 10,
       left: 0,
@@ -96,7 +96,7 @@ class _BottomBarState extends ConsumerState<BottomBar>
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
           height: bottomBarHeight,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.light700,
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
@@ -124,14 +124,14 @@ class _BottomBarState extends ConsumerState<BottomBar>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               widget.name,
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                             Text(
                               widget.title,
-                              style: TextStyle(
+                              style:const TextStyle(
                                 color: AppColors.light400,
                                 fontWeight: FontWeight.bold,
                               ),
